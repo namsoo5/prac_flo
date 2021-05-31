@@ -12,6 +12,7 @@
 		064D92032665097A0064AB94 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 064D92012665097A0064AB94 /* Main.storyboard */; };
 		064D92052665097E0064AB94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 064D92042665097E0064AB94 /* Assets.xcassets */; };
 		064D92082665097E0064AB94 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 064D92062665097E0064AB94 /* LaunchScreen.storyboard */; };
+		6869948A251668DF071D3CE4 /* Pods_prac_flo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9DC1C2D6D8C5EC017B940AB /* Pods_prac_flo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,9 @@
 		064D92042665097E0064AB94 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		064D92072665097E0064AB94 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		064D92092665097E0064AB94 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5CB9B5C9B1D5185FD61B38C3 /* Pods-prac_flo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prac_flo.debug.xcconfig"; path = "Target Support Files/Pods-prac_flo/Pods-prac_flo.debug.xcconfig"; sourceTree = "<group>"; };
+		A67E909A3506220C403C2CF8 /* Pods-prac_flo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prac_flo.release.xcconfig"; path = "Target Support Files/Pods-prac_flo/Pods-prac_flo.release.xcconfig"; sourceTree = "<group>"; };
+		A9DC1C2D6D8C5EC017B940AB /* Pods_prac_flo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_prac_flo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +33,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6869948A251668DF071D3CE4 /* Pods_prac_flo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +45,8 @@
 			children = (
 				064D91FA2665097A0064AB94 /* prac_flo */,
 				064D91F92665097A0064AB94 /* Products */,
+				504885538C751434EC17F3F6 /* Pods */,
+				252021DB100C48781AA5DA9E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -64,6 +71,24 @@
 			path = prac_flo;
 			sourceTree = "<group>";
 		};
+		252021DB100C48781AA5DA9E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A9DC1C2D6D8C5EC017B940AB /* Pods_prac_flo.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		504885538C751434EC17F3F6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5CB9B5C9B1D5185FD61B38C3 /* Pods-prac_flo.debug.xcconfig */,
+				A67E909A3506220C403C2CF8 /* Pods-prac_flo.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -71,9 +96,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 064D920C2665097E0064AB94 /* Build configuration list for PBXNativeTarget "prac_flo" */;
 			buildPhases = (
+				9E1AB8BAE3AA850C7B32B51A /* [CP] Check Pods Manifest.lock */,
 				064D91F42665097A0064AB94 /* Sources */,
 				064D91F52665097A0064AB94 /* Frameworks */,
 				064D91F62665097A0064AB94 /* Resources */,
+				6C4DCD2676D0E4C1C3584BC0 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -128,6 +155,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6C4DCD2676D0E4C1C3584BC0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-prac_flo/Pods-prac_flo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-prac_flo/Pods-prac_flo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-prac_flo/Pods-prac_flo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9E1AB8BAE3AA850C7B32B51A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-prac_flo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		064D91F42665097A0064AB94 /* Sources */ = {
@@ -279,6 +348,7 @@
 		};
 		064D920D2665097E0064AB94 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5CB9B5C9B1D5185FD61B38C3 /* Pods-prac_flo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -299,6 +369,7 @@
 		};
 		064D920E2665097E0064AB94 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A67E909A3506220C403C2CF8 /* Pods-prac_flo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
