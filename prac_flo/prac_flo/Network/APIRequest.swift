@@ -8,7 +8,10 @@
 import Foundation
 import Alamofire
 
-struct APIRequest {
+final class APIRequest {
+    static let shared: APIRequest = APIRequest()
+    private init() { }
+    
     private func request<T: Decodable>(api: API, type: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
         AF.request(api.url,
                    method: api.method,

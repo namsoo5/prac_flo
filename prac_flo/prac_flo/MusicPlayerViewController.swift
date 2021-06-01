@@ -11,7 +11,14 @@ class MusicPlayerViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        requestTest()
+    }
+    
+    func requestTest() {
+        APIRequest.shared.requestSongInfo { result in
+            print(result)
+        }
     }
 }
 

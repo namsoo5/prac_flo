@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IKI-dh-Opj">
-                                <rect key="frame" x="32" y="174" width="350" height="350"/>
+                                <rect key="frame" x="80" y="270" width="254" height="254"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="IKI-dh-Opj" secondAttribute="height" multiplier="1:1" id="Wgs-0v-IBr"/>
                                 </constraints>
@@ -76,13 +76,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="헤픈 우연" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uZC-mU-weC">
-                                <rect key="frame" x="172" y="110" width="70.5" height="23"/>
+                                <rect key="frame" x="172" y="206" width="70.5" height="23"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="헤이즈" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IHQ-ah-roi">
-                                <rect key="frame" x="189" y="141" width="36.5" height="17"/>
+                                <rect key="frame" x="189" y="237" width="36.5" height="17"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -95,7 +95,7 @@
                             <constraint firstItem="IKI-dh-Opj" firstAttribute="top" secondItem="IHQ-ah-roi" secondAttribute="bottom" constant="16" id="8QQ-yD-zCh"/>
                             <constraint firstItem="w8Z-8T-lPG" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="9rf-ep-sAP"/>
                             <constraint firstItem="IpC-19-TIE" firstAttribute="leading" secondItem="0bk-NC-V27" secondAttribute="leading" id="DpT-hd-NSo"/>
-                            <constraint firstItem="IKI-dh-Opj" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="32" id="EiQ-Ed-df8"/>
+                            <constraint firstItem="IKI-dh-Opj" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="80" id="EiQ-Ed-df8"/>
                             <constraint firstItem="IHQ-ah-roi" firstAttribute="centerX" secondItem="IKI-dh-Opj" secondAttribute="centerX" id="KDD-us-4uo"/>
                             <constraint firstItem="uZC-mU-weC" firstAttribute="centerX" secondItem="IHQ-ah-roi" secondAttribute="centerX" id="KtS-4X-cvd"/>
                             <constraint firstItem="kjc-7y-KLV" firstAttribute="centerY" secondItem="IpC-19-TIE" secondAttribute="centerY" id="Ntf-tZ-XFp"/>
@@ -105,7 +105,7 @@
                             <constraint firstItem="IHQ-ah-roi" firstAttribute="top" secondItem="uZC-mU-weC" secondAttribute="bottom" constant="8" id="Xt5-IN-6De"/>
                             <constraint firstItem="w8Z-8T-lPG" firstAttribute="top" secondItem="0bk-NC-V27" secondAttribute="bottom" constant="40" id="bDR-rB-5VE"/>
                             <constraint firstItem="kjc-7y-KLV" firstAttribute="trailing" secondItem="0bk-NC-V27" secondAttribute="trailing" id="fTV-0Q-j3j"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="IKI-dh-Opj" secondAttribute="trailing" constant="32" id="fj5-U0-w5s"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="IKI-dh-Opj" secondAttribute="trailing" constant="80" id="fj5-U0-w5s"/>
                             <constraint firstItem="0bk-NC-V27" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="lCR-ZE-Mf0"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="w8Z-8T-lPG" secondAttribute="bottom" constant="24" id="t2w-K6-Hcw"/>
                         </constraints>

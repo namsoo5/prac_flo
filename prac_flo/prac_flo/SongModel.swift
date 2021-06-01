@@ -14,5 +14,5 @@ struct Song: Decodable {
     let duration: Int
     let image: String
     let file: String
-    let lyrics: [String]
+    let lyrics: String?
 }
