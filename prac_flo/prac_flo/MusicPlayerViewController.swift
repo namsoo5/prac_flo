@@ -18,15 +18,28 @@ final class MusicPlayerViewController: UIViewController {
     @IBOutlet weak var endPlayTimeLabel: UILabel!
     @IBOutlet private weak var songPlayButton: UIButton!
     
+    private var isPlay: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         requestTest()
-        
     }
     
     @IBAction private func playButtonTouchUpInside(_ sender: Any) {
-        
+        isPlay = !isPlay
+        if isPlay {
+            MusicPlayer.shared.play { isPlay in
+                if isPlay {
+                    DispatchQueue.main.async { [weak self] in
+                        self?.songPlayButton.setBackgroundImage(UIImage(named: "pause"), for: .normal)
+                    }
+                }
+            }
+        } else {
+            MusicPlayer.shared.pause()
+            songPlayButton.setBackgroundImage(UIImage(named: "play"), for: .normal)
+        }
     }
     
     private func requestTest() {

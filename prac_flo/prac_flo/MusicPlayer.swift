@@ -20,9 +20,6 @@ final class MusicPlayer {
     var curTime: String {
         (player?.currentTime ?? 0).convertTimeToPlayTime
     }
-    var endTime: String {
-        (player?.duration ?? 0).convertTimeToPlayTime
-    }
     
     private func requestMusicFile(url: URL, completion: @escaping (Data?) -> Void) {
         AF.request(url)
@@ -30,7 +27,6 @@ final class MusicPlayer {
             .responseData { response in
                 switch response.result {
                 case .success(let data):
-                    print(data)
                     completion(data)
                 case .failure:
                     completion(nil)
@@ -50,11 +46,32 @@ final class MusicPlayer {
         }
     }
     
-    func play() {
+    func play(completion: @escaping (Bool) -> Void) {
+        if let player = self.player {
+            player.play()
+            completion(true)
+        } else {
+            checkAudioData(repeatTime: 10) {
+                completion($0)
+            }
+        }
+    }
+    
+    // 데이터 로드보다 플레이버튼을 빠르게 누른경우 일정시간 반복해서 데이터를 탐지함
+    private func checkAudioData(repeatTime: Int, completion: @escaping (Bool) -> Void) {
+        var limitLoadTime = repeatTime
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] timer in
             if let player = self?.player {
                 player.play()
                 timer.invalidate()
+                completion(true)
+            } else {
+                limitLoadTime -= 1
+                if limitLoadTime < 0 {
+                    timer.invalidate()
+                    print("load error")
+                    completion(false)
+                }
             }
         }
     }
