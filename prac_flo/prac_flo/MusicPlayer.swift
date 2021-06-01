@@ -18,10 +18,10 @@ final class MusicPlayer {
     
     private var player: AVAudioPlayer?
     var curTime: String {
-        convertTimeToString(player?.currentTime ?? 0)
+        (player?.currentTime ?? 0).convertTimeToPlayTime
     }
     var endTime: String {
-        convertTimeToString(player?.duration ?? 0)
+        (player?.duration ?? 0).convertTimeToPlayTime
     }
     
     private func requestMusicFile(url: URL, completion: @escaping (Data?) -> Void) {
@@ -30,6 +30,7 @@ final class MusicPlayer {
             .responseData { response in
                 switch response.result {
                 case .success(let data):
+                    print(data)
                     completion(data)
                 case .failure:
                     completion(nil)
@@ -37,19 +38,12 @@ final class MusicPlayer {
             }
     }
     
-    private func convertTimeToString(_ time: TimeInterval) -> String {
-        let min = Int(time / 60)
-        let sec = Int(time.truncatingRemainder(dividingBy: 60))
-        let timerString = String(format: "%02d:%02d", min, sec)
-        
-        return timerString
-    }
-    
-    func loadAudioFile(_ url: URL) {
+    func loadAudioFile(url: URL) {
         player = nil
         requestMusicFile(url: url) { [weak self] data in
             if let data = data {
                 self?.player = try? AVAudioPlayer(data: data)
+                self?.player?.prepareToPlay()
             } else {
                 print("play error")
             }
