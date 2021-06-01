@@ -9,13 +9,19 @@ import Foundation
 import Alamofire
 import AVFoundation
 
-final class MusicPlayer {
+protocol MusicPlayerDelegate: AnyObject {
+    func didFinishPlaying()
+}
+
+final class MusicPlayer: NSObject {
     static let shared: MusicPlayer = MusicPlayer()
-    private init() {
+    private override init() {
+        super.init()
         try? AVAudioSession.sharedInstance().setCategory(.playAndRecord,
                                                          options: [.allowBluetooth, .defaultToSpeaker])
     }
     
+    weak var delegate: MusicPlayerDelegate?
     private var player: AVAudioPlayer?
     var curTime: String {
         (player?.currentTime ?? 0).convertTimeToPlayTime
@@ -39,6 +45,7 @@ final class MusicPlayer {
         requestMusicFile(url: url) { [weak self] data in
             if let data = data {
                 self?.player = try? AVAudioPlayer(data: data)
+                self?.player?.delegate = self
                 self?.player?.prepareToPlay()
             } else {
                 print("play error")
@@ -78,5 +85,21 @@ final class MusicPlayer {
     
     func pause() {
         player?.pause()
+    }
+    
+    func stop() {
+        player?.stop()
+    }
+    
+    func movePlay(rate: Float) {
+        let time = Float(player?.duration ?? 0) * rate
+        print("movePlayTime: \(time)")
+        player?.currentTime = TimeInterval(time)
+    }
+}
+
+extension MusicPlayer: AVAudioPlayerDelegate {
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        delegate?.didFinishPlaying()
     }
 }
