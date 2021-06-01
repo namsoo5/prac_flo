@@ -43,6 +43,9 @@
                                         </constraints>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" backgroundImage="play.fill" catalog="system"/>
+                                        <connections>
+                                            <action selector="playButtonTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7wZ-4W-XdF"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b5b-rz-pOb">
                                         <rect key="frame" x="274" y="0.0" width="20" height="50"/>
@@ -110,6 +113,13 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="w8Z-8T-lPG" secondAttribute="bottom" constant="24" id="t2w-K6-Hcw"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="songImageView" destination="IKI-dh-Opj" id="p23-2N-vyK"/>
+                        <outlet property="songPlayButton" destination="Zx8-fV-4bY" id="M0I-xI-7tk"/>
+                        <outlet property="songProgressView" destination="0bk-NC-V27" id="pKp-2x-53b"/>
+                        <outlet property="songSingerLabel" destination="IHQ-ah-roi" id="g9m-li-c8b"/>
+                        <outlet property="songTitleLabel" destination="uZC-mU-weC" id="Slk-Rh-XuD"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

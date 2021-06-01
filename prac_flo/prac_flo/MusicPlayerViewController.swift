@@ -6,18 +6,32 @@
 //
 
 import UIKit
+import AVFoundation
 
-class MusicPlayerViewController: UIViewController {
+final class MusicPlayerViewController: UIViewController {
 
+    @IBOutlet private weak var songTitleLabel: UILabel!
+    @IBOutlet private weak var songSingerLabel: UILabel!
+    @IBOutlet private weak var songImageView: UIImageView!
+    @IBOutlet private weak var songProgressView: UIProgressView!
+    @IBOutlet private weak var songPlayButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         requestTest()
+        
     }
     
-    func requestTest() {
+    @IBAction private func playButtonTouchUpInside(_ sender: Any) {
+        
+    }
+    
+    private func requestTest() {
         APIRequest.shared.requestSongInfo { result in
             print(result)
+            
+            
         }
     }
 }
