@@ -112,7 +112,9 @@ extension APIRequest {
   * `AVAudioPlayerDelegate` 의 함수를 통해서 `MusicPlayer`가 재생이 끝나는 이벤트를 감지하고 delegate패턴을 통해 `MusicPlayerViewController` 에 이벤트를 전달해서 플레이어UI를 초기화 하는 작업을 함
 
 * 재생중 UI
-  * 
+  * 재생시 progress가 자연스럽게 애니메이션 안됨
+  * 종료시 부자연스러운 UI발견(프로그래스바 잠깐 채워짐)
+    * 타이머 종료시점 문제
 
 
 

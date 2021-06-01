@@ -17,14 +17,12 @@ final class MusicPlayer: NSObject {
     static let shared: MusicPlayer = MusicPlayer()
     private override init() {
         super.init()
-        try? AVAudioSession.sharedInstance().setCategory(.playAndRecord,
-                                                         options: [.allowBluetooth, .defaultToSpeaker])
     }
     
     weak var delegate: MusicPlayerDelegate?
     private var player: AVAudioPlayer?
-    var curTime: String {
-        (player?.currentTime ?? 0).convertTimeToPlayTime
+    var curTime: TimeInterval {
+        player?.currentTime ?? 0
     }
     
     private func requestMusicFile(url: URL, completion: @escaping (Data?) -> Void) {
@@ -54,6 +52,8 @@ final class MusicPlayer: NSObject {
     }
     
     func play(completion: @escaping (Bool) -> Void) {
+        try? AVAudioSession.sharedInstance().setCategory(.playAndRecord,
+                                                         options: [.allowBluetooth, .defaultToSpeaker])
         if let player = self.player {
             player.play()
             completion(true)
@@ -95,6 +95,11 @@ final class MusicPlayer: NSObject {
         let time = Float(player?.duration ?? 0) * rate
         print("movePlayTime: \(time)")
         player?.currentTime = TimeInterval(time)
+    }
+    
+    func rateTimeWithPlayTime(rate: Float) -> TimeInterval {
+        let time = Float(player?.duration ?? 0) * rate
+        return TimeInterval(time)
     }
 }
 

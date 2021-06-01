@@ -22,6 +22,9 @@ final class MusicPlayerViewController: UIViewController {
     private lazy var playImage: UIImage? = UIImage(named: "play")
     private lazy var pauseImage: UIImage? = UIImage(named: "pause")
     
+    private var playerTimer: Timer?
+    private var model: Song?
+    private var isProgressDrag: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +40,7 @@ final class MusicPlayerViewController: UIViewController {
             MusicPlayer.shared.play { [weak self] isPlay in
                 if isPlay {
                     DispatchQueue.main.async { [weak self] in
+                        self?.playProgress()
                         self?.songPlayButton.setBackgroundImage(self?.pauseImage, for: .normal)
                     }
                 } else {
@@ -45,6 +49,7 @@ final class MusicPlayerViewController: UIViewController {
                 }
             }
         } else {
+            pauseProgress()
             MusicPlayer.shared.pause()
             songPlayButton.setBackgroundImage(playImage, for: .normal)
         }
@@ -54,6 +59,7 @@ final class MusicPlayerViewController: UIViewController {
         APIRequest.shared.requestSongInfo { [weak self] result in
             switch result {
             case .success(let song):
+                self?.model = song
                 if let url = URL(string: song.file) {
                     MusicPlayer.shared.loadAudioFile(url: url)
                     self?.songProgressView.isUserInteractionEnabled = true
@@ -80,13 +86,20 @@ final class MusicPlayerViewController: UIViewController {
     
     @objc
     private func moveSeekbar(_ gesture: UIPanGestureRecognizer) {
-        let pos = gesture.location(in: songProgressView)
-        let rate = pos.x / songProgressView.frame.width
-        songProgressView.progress = Float(rate)
+        var pos = gesture.location(in: songProgressView)
+        if pos.x < 0 {
+            pos.x = 0
+        }
+        let rate: Float = Float(pos.x) / Float(songProgressView.frame.width)
+        songProgressView.progress = rate
+        isProgressDrag = true
+        let expectTime = MusicPlayer.shared.rateTimeWithPlayTime(rate: rate)
+        self.curPlayTimeLabel.text = expectTime.convertTimeToPlayTime
         
         switch gesture.state {
         case .ended:
-            MusicPlayer.shared.movePlay(rate: Float(rate))
+            MusicPlayer.shared.movePlay(rate: rate)
+            isProgressDrag = false
         default:
             return
         }
@@ -97,19 +110,44 @@ final class MusicPlayerViewController: UIViewController {
         let pos = gesture.location(in: songProgressView)
         let rate = pos.x / songProgressView.frame.width
         songProgressView.progress = Float(rate)
+        isProgressDrag = true
         
         switch gesture.state {
         case .ended:
             MusicPlayer.shared.movePlay(rate: Float(rate))
+            isProgressDrag = false
         default:
             return
         }
     }
     
     private func playReset() {
+        playerTimer?.invalidate()
         songProgressView.progress = 0
         curPlayTimeLabel.text = "00:00"
         songPlayButton.setBackgroundImage(playImage, for: .normal)
+    }
+    
+    private func playProgress(duration: TimeInterval = 0.01) {
+        guard let model = model else {
+            return
+        }
+        playerTimer = Timer.scheduledTimer(withTimeInterval: duration, repeats: true) { [weak self] timer in
+            // darg상태에서 동작안하도록 설정
+            if !(self?.isProgressDrag ?? false){
+                self?.curPlayTimeLabel.text = MusicPlayer.shared.curTime.convertTimeToPlayTime
+                let rate =  Float(MusicPlayer.shared.curTime) / Float(model.duration)
+                self?.songProgressView.progress = rate
+                
+                if rate >= 1 {
+                    timer.invalidate()
+                }
+            }
+        }
+    }
+    
+    private func pauseProgress() {
+        playerTimer?.invalidate()
     }
 }
 
