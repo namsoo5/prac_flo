@@ -8,6 +8,7 @@
 import UIKit
 import AVFoundation
 import SnapKit
+import Kingfisher
 
 final class MusicPlayerViewController: UIViewController {
 
@@ -35,12 +36,6 @@ final class MusicPlayerViewController: UIViewController {
         requestTest()
         seekbarAddPanGesture()
         MusicPlayer.shared.delegate = self
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        
     }
     
     func createScrollLyricsView() {
@@ -98,6 +93,9 @@ final class MusicPlayerViewController: UIViewController {
                     self?.curPlayTimeLabel.text = "00:00"
                     self?.endPlayTimeLabel.text = TimeInterval(song.duration).convertTimeToPlayTime
                     self?.scrollLyricsLabel.createLyricsLabel(lyricsInfo: MusicPlayer.shared.lyrics)
+                    if let url = URL(string: song.image) {
+                        self?.songImageView.kf.setImage(with: url)
+                    }
                 }
                 
             case .failure(let error):
