@@ -165,6 +165,10 @@ private func SeparationLyrics(_ lyrics: String) -> [(TimeInterval, String)] {
 
 
 
+</br>
+
+
+
 * 재생위치 가사 노출
 
 `CAScrollLayer`사용
@@ -178,6 +182,10 @@ CAScrollLayer를 포함한 class를 생성하였고
 1줄에 해당하는 가사를 UILabel로 만들고
 
 CAScrollLayer에 더해주는 방식을 선택
+
+
+
+</br>
 
 
 
@@ -201,6 +209,10 @@ private func timeForIndex(time: TimeInterval) -> Int {
 
 인덱스검색시 처음부터 비교해야하는 비효율적인 면이 보여서
 전의 index와 비교해서 처리하려고 했는데 임의로 seekbar를 움직여서 이동시킬시 오류가 있어보였고 가사 행의수가 그렇게 많지 않을것 같기 때문에 단순하게 비교하는 로직을 선택했습니다.
+
+
+
+</br>
 
 
 
