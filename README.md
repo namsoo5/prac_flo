@@ -175,13 +175,36 @@ private func SeparationLyrics(_ lyrics: String) -> [(TimeInterval, String)] {
 
 스크롤 이벤트를 받을 필요없이 시간에 의존하여 위치가 변하기때문에 선택
 
-CAScrollLayer를 포함한 class를 생성하였고
+CAScrollLayer를 포함한 class를 생성
+
+
+
+</br>
+
+
+
+* 가사 Label생성
 
 파싱한 가사정보를 받아서
 
 1줄에 해당하는 가사를 UILabel로 만들고
 
-CAScrollLayer에 더해주는 방식을 선택
+CAScrollLayer에 더해가는 방식
+
+```swift
+func createLyricsLabel(lyricsInfo: [LyricsInfo]) {
+    reset()
+    
+    self.lyricsInfo = lyricsInfo
+    var totalY: CGFloat = 0
+    for (_, lyrics) in lyricsInfo {
+        let label = createLabel(y: totalY, text: lyrics)
+        scrollLayer.addSublayer(label.layer)
+        lyricsLabels.append(label)
+        totalY = label.frame.maxY
+    }
+}
+```
 
 
 
