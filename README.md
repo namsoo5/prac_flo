@@ -108,6 +108,10 @@ extension APIRequest {
 
 
 
+</br>
+
+
+
 > ### 플레이어 구현
 
 싱글턴으로 구현해서 한개의 객체만 존재할 수 있도록 구현
@@ -124,6 +128,10 @@ extension APIRequest {
 
 
 
+</br>
+
+
+
 > ### seekbar구현
 
 * seekbar 드래그, 터치시 해당위치 재생
@@ -136,6 +144,10 @@ extension APIRequest {
 * 재생중 UI
   * 종료시 부자연스러운 UI발견(프로그래스바 잠깐 채워짐)
     * 타이머 종료시점 문제해결
+
+
+
+</br>
 
 
 
@@ -253,9 +265,52 @@ private func timeForIndex(time: TimeInterval) -> Int {
 현재 시간보다 검색한 시간이 더 큰경우 바로앞의 인덱스를 반환합니다
 
 인덱스검색시 처음부터 비교해야하는 비효율적인 면이 보여서
-전의 index와 비교해서 처리하려고 했는데 임의로 seekbar를 움직여서 이동시킬시 오류가 있어보였고 가사 행의수가 그렇게 많지 않을것 같기 때문에 단순하게 비교하는 로직을 선택했습니다.
+전의 index와 비교해서 처리하려고 했는데 임의로 seekbar를 움직여서 이동시킬시 오류가 있어보였습니다.
+가사 행의수가 그렇게 많지 않을것 같기 때문에 단순하게 비교하는 로직을 선택했습니다.
+
+timer루프 0.01초마다 index검사
+3분기준 180 * 100 ➡️ 18,000번 함수호출
+가사 49줄 이라면
+18,000 * 49 ➡️ 최대 882,000번 탐색
+
+4분 100줄 = 최대 2,400,000번 탐색
 
 
+
+> 개선코드
+
+``` swift
+private func timeForIndex(time: TimeInterval) -> Int {
+    let mid = lyricsInfo.count / 2
+    let midTime = lyricsInfo[mid].0
+    
+    // 중간보다 시간이 큼 중간부터 탐색
+    if time - midTime > 0 {
+        for i in mid..<lyricsInfo.count {
+            let startTime = lyricsInfo[i].0
+            if time < startTime {
+                return i-1 < 0 ? 0 : i-1
+            }
+        }
+    } else if time - midTime < 0 {
+        for i in 0...mid {
+            let startTime = lyricsInfo[i].0
+            if time < startTime {
+                return i-1 < 0 ? 0 : i-1
+            }
+        }
+    } else {
+        return mid
+    }
+    
+    return lyricsInfo.count - 1
+}
+```
+
+중간시간을 기준으로 전후인지 체크후 전체범위의 반만 반복문 돌리도록 구현
+
+4분 ➡️ 24,000번 함수호출
+가사 100줄(중간시간을 기준으로 앞뒤만 비교) ➡️ 24,000 * 50 = 1,200,000번 탐색
 
 </br>
 
