@@ -1,5 +1,27 @@
-# prac_flo
-프로그래머스 과제 flo연습
+# Flo앱 따라하기
+음악앱을 따라 만들어보면서 학습하기위해 시작했습니다.
+
+
+
+</br>
+
+
+
+## 구현화면
+
+### 재생화면
+
+<div>
+  <img src="./재생화면.gif" width="350" height="700">
+</div>
+
+
+
+### 전체가사화면
+
+
+
+</br>
 
 
 
@@ -261,14 +283,4 @@ private func highlightingLabel(index: Int) {
 index를 받아와서 해당위치로 스크롤
 
 이전의 가사의 포커스를 없애고 현재가사 포커스
-
-
-
-## 구현화면
-
-### 재생화면
-
-<div>
-  <img src="./재생화면.gif" width="300" height="600">
-</div>
 
