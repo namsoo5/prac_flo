@@ -159,11 +159,71 @@ private func SeparationLyrics(_ lyrics: String) -> [(TimeInterval, String)] {
 
 개행 단위로 나눈뒤
 
-[]를 기준으로 시간과 가사를 따로 저장한뒤
+`[` ,`]`를 기준으로 시간과 가사를 따로 저장한뒤
 
 튜플배열에 저장해서 순서대로 시간과 가사를 파싱함
 
 
 
+* 재생위치 가사 노출
 
+`CAScrollLayer`사용
+
+스크롤 이벤트를 받을 필요없이 시간에 의존하여 위치가 변하기때문에 선택
+
+CAScrollLayer를 포함한 class를 생성하였고
+
+파싱한 가사정보를 받아서
+
+1줄에 해당하는 가사를 UILabel로 만들고
+
+CAScrollLayer에 더해주는 방식을 선택
+
+
+
+* 시간에 따른 가사위치를 찾는 함수
+
+``` swift
+private func timeForIndex(time: TimeInterval) -> Int {
+    for i in lyricsInfo.indices {
+        let startTime = lyricsInfo[i].0
+        if time < startTime {
+            return i-1 < 0 ? 0 : i-1
+        }
+    }
+
+    return lyricsInfo.count
+}
+```
+
+가사정보에 들어있는 가사시작시간을 탐색하고
+현재 시간보다 검색한 시간이 더 큰경우 바로앞의 인덱스를 반환합니다
+
+인덱스검색시 처음부터 비교해야하는 비효율적인 면이 보여서
+전의 index와 비교해서 처리하려고 했는데 임의로 seekbar를 움직여서 이동시킬시 오류가 있어보였고 가사 행의수가 그렇게 많지 않을것 같기 때문에 단순하게 비교하는 로직을 선택했습니다.
+
+
+
+* 해당 가사 위치로 스크롤 및 하이라이팅
+
+``` swift
+private func scrollLabel(index: Int) {
+    if index == 0 {
+        return
+    }
+    let posY = index * Int(scrollLayer.frame.height/2)
+    scrollLayer.scrollMode = .vertically
+    scrollLayer.scroll(to: CGPoint(x: 0, y: posY))
+}
+
+private func highlightingLabel(index: Int) {
+    lyricsLabels[beforeHighlightIndex].textColor = .lightGray
+    lyricsLabels[index].textColor = .white
+    beforeHighlightIndex = index
+}
+```
+
+index를 받아와서 해당위치로 스크롤
+
+이전의 가사의 포커스를 없애고 현재가사 포커스
 
