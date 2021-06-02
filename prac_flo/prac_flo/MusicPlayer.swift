@@ -24,6 +24,7 @@ final class MusicPlayer: NSObject {
     var curTime: TimeInterval {
         player?.currentTime ?? 0
     }
+    var lyrics: [(TimeInterval, String)] = []
     
     private func requestMusicFile(url: URL, completion: @escaping (Data?) -> Void) {
         AF.request(url)
@@ -38,7 +39,10 @@ final class MusicPlayer: NSObject {
             }
     }
     
-    func loadAudioFile(url: URL) {
+    func loadAudioFile(url: URL, lyrics: String?) {
+        if let lyrics = lyrics {
+            self.lyrics = SeparationLyrics(lyrics)
+        }
         player = nil
         requestMusicFile(url: url) { [weak self] data in
             if let data = data {
@@ -46,7 +50,7 @@ final class MusicPlayer: NSObject {
                 self?.player?.delegate = self
                 self?.player?.prepareToPlay()
             } else {
-                print("play error")
+                Log("play error")
             }
         }
     }
@@ -76,7 +80,7 @@ final class MusicPlayer: NSObject {
                 limitLoadTime -= 1
                 if limitLoadTime < 0 {
                     timer.invalidate()
-                    print("load error")
+                    Log("load error")
                     completion(false)
                 }
             }
@@ -93,13 +97,48 @@ final class MusicPlayer: NSObject {
     
     func movePlay(rate: Float) {
         let time = Float(player?.duration ?? 0) * rate
-        print("movePlayTime: \(time)")
+        Log("movePlayTime: \(time)")
         player?.currentTime = TimeInterval(time)
     }
     
     func rateTimeWithPlayTime(rate: Float) -> TimeInterval {
         let time = Float(player?.duration ?? 0) * rate
         return TimeInterval(time)
+    }
+    
+    private func SeparationLyrics(_ lyrics: String) -> [(TimeInterval, String)] {
+        var timeWithLyrics: [(TimeInterval, String)] = []
+        let lyrcis = lyrics.components(separatedBy: .newlines)
+        
+        var isSaveLyrics = false
+        for s in lyrcis {
+            var timeString = ""
+            var tempLyrics = ""
+            for c in s {
+                if c == "[" {
+                    isSaveLyrics = false
+                } else if c == "]" {
+                    isSaveLyrics = true
+                } else {
+                    if isSaveLyrics {
+                        tempLyrics.append(c)
+                    } else {
+                        timeString.append(c)
+                    }
+                }
+            }
+            let time = lyricsTime(timeString)
+            timeWithLyrics.append((time, tempLyrics))
+        }
+        return timeWithLyrics
+    }
+    
+    func lyricsTime(_ time: String) -> TimeInterval {
+        let timeGroup = time.components(separatedBy: ":").map { Int($0) ?? 0 }
+        let min: Double = Double(timeGroup[0]) * 60.0
+        let sec: Double = Double(timeGroup[1])
+        let msec: Double = Double(timeGroup[2]) / 1000.0
+        return TimeInterval(min + sec + msec)
     }
 }
 

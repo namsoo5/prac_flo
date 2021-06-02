@@ -113,12 +113,55 @@ extension APIRequest {
 
 * 재생중 UI
   * 종료시 부자연스러운 UI발견(프로그래스바 잠깐 채워짐)
-    * 타이머 종료시점 문제
+    * 타이머 종료시점 문제해결
 
 
 
 
-> ### 현재 재생중인 부분 가사 하이라이팅되는 애니메이션구현
+> ### 현재 재생중인 부분 가사 하이라이팅구현
+
+* 가사 파싱
+
+``` swift
+[00:16:200]we wish you a merry christmas [00:18:300]we wish you a merry christmas [00:21:100]we wish you a merry christmas [00:23:600]and a happy new year
+```
+
+위형식의 스트링형태로 데이터를 받아왔고
+
+``` swift
+private func SeparationLyrics(_ lyrics: String) -> [(TimeInterval, String)] {
+    var timeWithLyrics: [(TimeInterval, String)] = []
+    let lyrcis = lyrics.components(separatedBy: .newlines)
+    
+    var isSaveLyrics = false
+    for s in lyrcis {
+        var timeString = ""
+        var tempLyrics = ""
+        for c in s {
+            if c == "[" {
+                isSaveLyrics = false
+            } else if c == "]" {
+                isSaveLyrics = true
+            } else {
+                if isSaveLyrics {
+                    tempLyrics.append(c)
+                } else {
+                    timeString.append(c)
+                }
+            }
+        }
+        let time = lyricsTime(timeString)
+        timeWithLyrics.append((time, tempLyrics))
+    }
+    return timeWithLyrics
+}
+```
+
+개행 단위로 나눈뒤
+
+[]를 기준으로 시간과 가사를 따로 저장한뒤
+
+튜플배열에 저장해서 순서대로 시간과 가사를 파싱함
 
 
 

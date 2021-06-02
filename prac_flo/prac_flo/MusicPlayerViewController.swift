@@ -35,6 +35,10 @@ final class MusicPlayerViewController: UIViewController {
     }
     
     @IBAction private func playButtonTouchUpInside(_ sender: Any) {
+        if model == nil {
+            return
+        }
+        
         isPlay = !isPlay
         if isPlay {
             MusicPlayer.shared.play { [weak self] isPlay in
@@ -46,6 +50,7 @@ final class MusicPlayerViewController: UIViewController {
                 } else {
                     print("play error")
                     self?.isPlay = false
+                    self?.songPlayButton.setBackgroundImage(self?.playImage, for: .normal)
                 }
             }
         } else {
@@ -61,7 +66,7 @@ final class MusicPlayerViewController: UIViewController {
             case .success(let song):
                 self?.model = song
                 if let url = URL(string: song.file) {
-                    MusicPlayer.shared.loadAudioFile(url: url)
+                    MusicPlayer.shared.loadAudioFile(url: url, lyrics: song.lyrics)
                     self?.songProgressView.isUserInteractionEnabled = true
                 }
                 DispatchQueue.main.async {
