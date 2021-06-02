@@ -137,7 +137,10 @@ final class MusicPlayerViewController: UIViewController {
             if !(self?.isProgressDrag ?? false){
                 self?.curPlayTimeLabel.text = MusicPlayer.shared.curTime.convertTimeToPlayTime
                 let rate =  Float(MusicPlayer.shared.curTime) / Float(model.duration)
-                self?.songProgressView.progress = rate
+                
+                UIView.animate(withDuration: 1) { [weak self] in
+                    self?.songProgressView.setProgress(rate, animated: true)
+                }
                 
                 if rate >= 1 {
                     timer.invalidate()
