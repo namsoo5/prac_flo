@@ -96,10 +96,9 @@ final class DetailLyricsView: UIView {
     
     func showView() {
         alpha = 0
+        isHidden = false
         UIView.animate(withDuration: 0.5) { [weak self] in
             self?.alpha = 1
-        } completion: { [weak self] _ in
-            self?.isHidden = false
         }
     }
     @objc
