@@ -20,6 +20,13 @@ final class MusicPlayerViewController: UIViewController {
     @IBOutlet weak var endPlayTimeLabel: UILabel!
     @IBOutlet private weak var songPlayButton: UIButton!
     private var scrollLyricsLabel: LyricsScrollLabelView!
+    private lazy var detailLyricsView: DetailLyricsView = {
+        view.addSubview($0)
+        $0.snp.makeConstraints {
+            $0.leading.trailing.top.bottom.equalToSuperview()
+        }
+        return $0
+    }(DetailLyricsView())
     
     private var isPlay: Bool = false
     private lazy var playImage: UIImage? = UIImage(named: "play")
@@ -36,6 +43,7 @@ final class MusicPlayerViewController: UIViewController {
         requestTest()
         seekbarAddPanGesture()
         MusicPlayer.shared.delegate = self
+        lyricsAddTapGesture()
     }
     
     func createScrollLyricsView() {
@@ -44,8 +52,7 @@ final class MusicPlayerViewController: UIViewController {
         view.addSubview(scrollLyricsLabel)
         scrollLyricsLabel.snp.makeConstraints {
             $0.top.equalTo(songImageView.snp.bottom).offset(16)
-            $0.leading.equalTo(songImageView.snp.leading)
-            $0.trailing.equalTo(songImageView.snp.trailing)
+            $0.leading.trailing.equalTo(songImageView)
             $0.height.equalTo(34)
         }
         view.layoutIfNeeded()
@@ -178,6 +185,18 @@ final class MusicPlayerViewController: UIViewController {
     
     private func pauseProgress() {
         playerTimer?.invalidate()
+    }
+    
+    private func lyricsAddTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapLyrics))
+        scrollLyricsLabel.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc
+    private func tapLyrics() {
+        if let model = model {
+            detailLyricsView.config(model: model)
+        }
     }
 }
 
