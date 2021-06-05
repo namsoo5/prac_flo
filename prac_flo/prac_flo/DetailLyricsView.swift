@@ -256,11 +256,14 @@ final class DetailLyricsView: UIView {
                 
                 let cell = self?.tableView.cellForRow(at: indexPath) as? StringCell
                 cell?.highlightingLabel(isHightlight: true)
-                self?.beforeIndex = index
                 
                 if (self?.isObservedCurRow ?? false) && !(self?.isScrolled ?? false) {
-                    self?.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+                    if self?.beforeIndex != index {
+                        self?.tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
+                        self?.layoutIfNeeded()
+                    }
                 }
+                self?.beforeIndex = index
             }
         }
     }
