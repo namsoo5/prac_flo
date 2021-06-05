@@ -19,6 +19,7 @@
 		064D921D266623660064AB94 /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064D921C266623660064AB94 /* MusicPlayer.swift */; };
 		064D921F26662E6C0064AB94 /* TimeInterval+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064D921E26662E6C0064AB94 /* TimeInterval+.swift */; };
 		067BBB652668D411004F5435 /* DetailLyricsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067BBB642668D411004F5435 /* DetailLyricsView.swift */; };
+		067BBB69266BB16A004F5435 /* StringCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067BBB68266BB16A004F5435 /* StringCell.swift */; };
 		0697359F26675D4700276673 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0697359E26675D4700276673 /* Log.swift */; };
 		069735A12667ABFA00276673 /* LyricsScrollLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069735A02667ABFA00276673 /* LyricsScrollLabelView.swift */; };
 		6869948A251668DF071D3CE4 /* Pods_prac_flo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9DC1C2D6D8C5EC017B940AB /* Pods_prac_flo.framework */; };
@@ -39,6 +40,7 @@
 		064D921C266623660064AB94 /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		064D921E26662E6C0064AB94 /* TimeInterval+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+.swift"; sourceTree = "<group>"; };
 		067BBB642668D411004F5435 /* DetailLyricsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailLyricsView.swift; sourceTree = "<group>"; };
+		067BBB68266BB16A004F5435 /* StringCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringCell.swift; sourceTree = "<group>"; };
 		0697359E26675D4700276673 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		069735A02667ABFA00276673 /* LyricsScrollLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsScrollLabelView.swift; sourceTree = "<group>"; };
 		5CB9B5C9B1D5185FD61B38C3 /* Pods-prac_flo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prac_flo.debug.xcconfig"; path = "Target Support Files/Pods-prac_flo/Pods-prac_flo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 				0697359E26675D4700276673 /* Log.swift */,
 				064D91FF2665097A0064AB94 /* MusicPlayerViewController.swift */,
 				067BBB642668D411004F5435 /* DetailLyricsView.swift */,
+				067BBB68266BB16A004F5435 /* StringCell.swift */,
 				069735A02667ABFA00276673 /* LyricsScrollLabelView.swift */,
 				064D921C266623660064AB94 /* MusicPlayer.swift */,
 				064D921E26662E6C0064AB94 /* TimeInterval+.swift */,
@@ -239,6 +242,7 @@
 			files = (
 				064D921B266617270064AB94 /* SongModel.swift in Sources */,
 				064D92002665097A0064AB94 /* MusicPlayerViewController.swift in Sources */,
+				067BBB69266BB16A004F5435 /* StringCell.swift in Sources */,
 				069735A12667ABFA00276673 /* LyricsScrollLabelView.swift in Sources */,
 				0697359F26675D4700276673 /* Log.swift in Sources */,
 				064D921526660FB50064AB94 /* SongAPI.swift in Sources */,

@@ -380,3 +380,4 @@ playerTimer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { [wea
 
 스크롤기능이 켜져있다면 따라가도록 구현
 
+인덱스를 클릭하면 해당 가사의 시점으로 플레이어 시간변경
