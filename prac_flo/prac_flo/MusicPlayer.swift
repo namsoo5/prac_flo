@@ -101,6 +101,10 @@ final class MusicPlayer: NSObject {
         player?.currentTime = TimeInterval(time)
     }
     
+    func movePlay(sec: TimeInterval) {
+        player?.currentTime = sec
+    }
+    
     func rateTimeWithPlayTime(rate: Float) -> TimeInterval {
         let time = Float(player?.duration ?? 0) * rate
         return TimeInterval(time)
