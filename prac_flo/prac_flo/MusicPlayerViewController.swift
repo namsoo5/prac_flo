@@ -48,7 +48,6 @@ final class MusicPlayerViewController: UIViewController {
     
     func createScrollLyricsView() {
         scrollLyricsLabel = LyricsScrollLabelView()
-        scrollLyricsLabel.duration = 1
         view.addSubview(scrollLyricsLabel)
         scrollLyricsLabel.snp.makeConstraints {
             $0.top.equalTo(songImageView.snp.bottom).offset(16)

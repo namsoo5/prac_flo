@@ -20,9 +20,7 @@ final class LyricsScrollLabelView: UIView {
     typealias LyricsInfo = (TimeInterval, String)
     
     private var scrollLayer = CAScrollLayer()
-    var duration: TimeInterval = 0
     private var lyricsInfo: [LyricsInfo] = []
-    var scrollable: Bool = false
     private var lyricsLabels: [UILabel] = [] // 가사 Label 한 줄씩 저장
     private var beforeHighlightIndex: Int = 0
     

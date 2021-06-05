@@ -339,7 +339,6 @@ extension DetailLyricsView: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        Log(indexPath)
         let sec = MusicPlayer.shared.lyrics[indexPath.row].0
         MusicPlayer.shared.movePlay(sec: sec)
     }
