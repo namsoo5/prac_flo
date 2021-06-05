@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol DetailLyricsViewDelegate: AnyObject {
+    func closeView(isPlay: Bool)
+}
+
 /**
  ~~~
  // 필수구현함수
@@ -50,6 +54,7 @@ final class DetailLyricsView: UIView {
     
     private var songProgressView: UIProgressView!
     private var playButton: UIButton!
+    unowned var delegate: DetailLyricsViewDelegate?
     private lazy var playImage: UIImage? = UIImage(named: "play")
     private lazy var pauseImage: UIImage? = UIImage(named: "pause")
     private lazy var bottomView: UIView = {
@@ -71,11 +76,6 @@ final class DetailLyricsView: UIView {
         }
         
         playButton = UIButton()
-        if isPlay {
-            playButton.setBackgroundImage(pauseImage, for: .normal)
-        } else {
-            playButton.setBackgroundImage(playImage, for: .normal)
-        }
         playButton.tintColor = .white
         $0.addSubview(playButton)
         playButton.snp.makeConstraints {
@@ -145,6 +145,9 @@ final class DetailLyricsView: UIView {
         createTableView()
         if isPlay {
             playProgress()
+            playButton.setBackgroundImage(pauseImage, for: .normal)
+        } else {
+            playButton.setBackgroundImage(playImage, for: .normal)
         }
     }
     
@@ -169,6 +172,7 @@ final class DetailLyricsView: UIView {
    
     @objc
     private func cancelButtonTouchUpInside() {
+        delegate?.closeView(isPlay: isPlay)
         UIView.animate(withDuration: 0.5) { [weak self] in
             self?.layoutIfNeeded()
             self?.alpha = 0

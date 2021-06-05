@@ -195,6 +195,7 @@ final class MusicPlayerViewController: UIViewController {
     private func tapLyrics() {
         if let model = model {
             detailLyricsView.config(model: model, isPlay: isPlay)
+            detailLyricsView.delegate = self
         }
     }
 }
@@ -208,3 +209,13 @@ extension MusicPlayerViewController: MusicPlayerDelegate {
     }
 }
 
+extension MusicPlayerViewController: DetailLyricsViewDelegate {
+    func closeView(isPlay: Bool) {
+        self.isPlay = isPlay
+        if isPlay {
+            songPlayButton.setBackgroundImage(pauseImage, for: .normal)
+        } else {
+            songPlayButton.setBackgroundImage(playImage, for: .normal)
+        }
+    }
+}
