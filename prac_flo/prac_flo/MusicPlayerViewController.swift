@@ -195,7 +195,7 @@ final class MusicPlayerViewController: UIViewController {
     @objc
     private func tapLyrics() {
         if let model = model {
-            detailLyricsView.config(model: model)
+            detailLyricsView.config(model: model, isPlay: isPlay)
         }
     }
 }
@@ -205,6 +205,7 @@ extension MusicPlayerViewController: MusicPlayerDelegate {
     func didFinishPlaying() {
         MusicPlayer.shared.stop()
         playReset()
+        detailLyricsView.playReset()
     }
 }
 
