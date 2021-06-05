@@ -20,8 +20,9 @@
 ### 전체가사화면
 
 <div>
-  <img src="./전체가사화면.mp4" width="350" height="700">
+  <img src="./전체가사화면.gif" width="350" height="700">
 </div>
+
 
 </br>
 
