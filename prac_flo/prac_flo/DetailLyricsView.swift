@@ -247,21 +247,22 @@ final class DetailLyricsView: UIView {
                     self?.songProgressView.setProgress(rate, animated: true)
                 }
                 
+                let index = MusicPlayer.shared.timeForIndex(time: MusicPlayer.shared.curTime)
+                if index == self?.beforeIndex {
+                    return
+                }
+                
                 let beforeIndexPath = IndexPath(row: self?.beforeIndex ?? 0, section: 0)
                 let beforeCell = self?.tableView.cellForRow(at: beforeIndexPath) as? StringCell
                 beforeCell?.highlightingLabel(isHightlight: false)
                 
-                let index = MusicPlayer.shared.timeForIndex(time: MusicPlayer.shared.curTime)
                 let indexPath = IndexPath(row: index, section: 0)
-                
                 let cell = self?.tableView.cellForRow(at: indexPath) as? StringCell
                 cell?.highlightingLabel(isHightlight: true)
                 
                 if (self?.isObservedCurRow ?? false) && !(self?.isScrolled ?? false) {
-                    if self?.beforeIndex != index {
-                        self?.tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
-                        self?.layoutIfNeeded()
-                    }
+                    self?.tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
+                    self?.layoutIfNeeded()
                 }
                 self?.beforeIndex = index
             }

@@ -356,23 +356,35 @@ index를 받아와서 해당위치로 스크롤
 클릭이벤트도 받아야하므로 테이블뷰가 적당하다고 생각
 
 ``` swift
-playerTimer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { [weak self] timer in
-    if Int(MusicPlayer.shared.curTime) > (self?.model?.duration ?? 0) {
-        self?.playerTimer?.invalidate()
+playerTimer = Timer.scheduledTimer(withTimeInterval: duration, repeats: true) { [weak self] timer in
+    if !(self?.isProgressDrag ?? false) {
+        if Int(MusicPlayer.shared.curTime) > (self?.model?.duration ?? 0) {
+            self?.playerTimer?.invalidate()
+        }
+        let rate =  Float(MusicPlayer.shared.curTime) / Float(model.duration)
+        UIView.animate(withDuration: 1) { [weak self] in
+            self?.songProgressView.setProgress(rate, animated: true)
+        }
+        
+        let index = MusicPlayer.shared.timeForIndex(time: MusicPlayer.shared.curTime)
+        if index == self?.beforeIndex {
+            return
+        }
+        
+        let beforeIndexPath = IndexPath(row: self?.beforeIndex ?? 0, section: 0)
+        let beforeCell = self?.tableView.cellForRow(at: beforeIndexPath) as? StringCell
+        beforeCell?.highlightingLabel(isHightlight: false)
+        
+        let indexPath = IndexPath(row: index, section: 0)
+        let cell = self?.tableView.cellForRow(at: indexPath) as? StringCell
+        cell?.highlightingLabel(isHightlight: true)
+        
+        if (self?.isObservedCurRow ?? false) && !(self?.isScrolled ?? false) {
+            self?.tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
+            self?.layoutIfNeeded()
+        }
+        self?.beforeIndex = index
     }
-    let beforeIndexPath = IndexPath(row: self?.beforeIndex ?? 0, section: 0)
-    let beforeCell = self?.tableView.cellForRow(at: beforeIndexPath) as? StringCell
-    beforeCell?.highlightingLabel(isHightlight: false)
-    
-    let index = MusicPlayer.shared.timeForIndex(time: MusicPlayer.shared.curTime)
-    let indexPath = IndexPath(row: index, section: 0)
-    if (self?.isObservedCurRow ?? false) {
-        self?.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
-    }
-    let cell = self?.tableView.cellForRow(at: indexPath) as? StringCell
-    cell?.highlightingLabel(isHightlight: true)
-    
-    self?.beforeIndex = index
 }
 ```
 
@@ -381,3 +393,8 @@ playerTimer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { [wea
 스크롤기능이 켜져있다면 따라가도록 구현
 
 인덱스를 클릭하면 해당 가사의 시점으로 플레이어 시간변경
+
+계속스크롤 및 하이라이팅을 동작시키는것은 비효율적이므로 이전의 인덱스와 다를경우에만 이동시키는 방법을 선택함
+
+
+
