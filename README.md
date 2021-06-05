@@ -27,6 +27,8 @@
 
 ## 개발하면서고민
 
+<kbd>네트워크</kbd>
+
 > ### 네트워크 레이어 구성
 
 ``` swift
@@ -111,6 +113,8 @@ extension APIRequest {
 </br>
 
 
+
+<kbd>재생화면</kbd>
 
 > ### 플레이어 구현
 
@@ -338,4 +342,41 @@ private func highlightingLabel(index: Int) {
 index를 받아와서 해당위치로 스크롤
 
 이전의 가사의 포커스를 없애고 현재가사 포커스
+
+
+
+***
+
+<kbd>전체가사화면</kbd>
+
+> ### 스크롤되는 가사
+
+위에서 구현한 클래스를 재사용하려했으나 사용했을경우에 지나간 가사를 볼 수 없는 이슈가 있어서 다른 방법으로 새로구현
+
+클릭이벤트도 받아야하므로 테이블뷰가 적당하다고 생각
+
+``` swift
+playerTimer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { [weak self] timer in
+    if Int(MusicPlayer.shared.curTime) > (self?.model?.duration ?? 0) {
+        self?.playerTimer?.invalidate()
+    }
+    let beforeIndexPath = IndexPath(row: self?.beforeIndex ?? 0, section: 0)
+    let beforeCell = self?.tableView.cellForRow(at: beforeIndexPath) as? StringCell
+    beforeCell?.highlightingLabel(isHightlight: false)
+    
+    let index = MusicPlayer.shared.timeForIndex(time: MusicPlayer.shared.curTime)
+    let indexPath = IndexPath(row: index, section: 0)
+    if (self?.isObservedCurRow ?? false) {
+        self?.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+    }
+    let cell = self?.tableView.cellForRow(at: indexPath) as? StringCell
+    cell?.highlightingLabel(isHightlight: true)
+    
+    self?.beforeIndex = index
+}
+```
+
+현재 시간에 맞는 row를 찾고 해당 cell을 하이라이팅해줌
+
+스크롤기능이 켜져있다면 따라가도록 구현
 

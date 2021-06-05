@@ -14,6 +14,8 @@ import UIKit
  ~~~
  */
 final class DetailLyricsView: UIView {
+    private lazy var titleLabel = createLabel(font: .systemFont(ofSize: 19, weight: .bold))
+    private lazy var singerLabel = createLabel(font: .systemFont(ofSize: 14, weight: .semibold))
     private lazy var titleView: UIView = {
         self.addSubview($0)
         $0.snp.makeConstraints {
@@ -21,9 +23,6 @@ final class DetailLyricsView: UIView {
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(60)
         }
-        let titleLabel = createLabel(text: title, font: .systemFont(ofSize: 19, weight: .bold))
-        let singerLabel = createLabel(text: title, font: .systemFont(ofSize: 14, weight: .semibold))
-
         $0.addSubview(titleLabel)
         $0.addSubview(singerLabel)
         
@@ -58,7 +57,7 @@ final class DetailLyricsView: UIView {
         return $0
     }(UIView())
     
-    private lazy var scrollView: UIScrollView = {
+    private lazy var tableView: UITableView = {
         self.addSubview($0)
         $0.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
@@ -66,24 +65,25 @@ final class DetailLyricsView: UIView {
             $0.top.equalTo(titleView.snp.bottom)
         }
         return $0
-    }(UIScrollView())
-    
-    private var title: String = ""
-    private var singer: String = ""
+    }(UITableView())
+    private var model: Song?
     
     func config(model: Song) {
-        title = model.title
-        singer = model.singer
+        self.model = model
+        titleLabel.text = model.title
+        singerLabel.text = model.singer
         
         showView()
         
         self.backgroundColor = .black
         titleView.backgroundColor = .black
         bottomView.backgroundColor = .black
-        scrollView.backgroundColor = .black
+        tableView.backgroundColor = .black
+        
+        createTableView()
     }
     
-    private func createLabel(text: String, font: UIFont) -> UILabel {
+    private func createLabel(text: String = "", font: UIFont) -> UILabel {
         let label: UILabel = {
             $0.text = text
             $0.textColor = .white
@@ -109,5 +109,91 @@ final class DetailLyricsView: UIView {
         } completion: { [weak self] _ in
             self?.isHidden = true
         }
+    }
+    
+    var playerTimer: Timer?
+    var beforeIndex: Int = 0
+    var isObservedCurRow: Bool = false
+    
+    private func createTableView() {
+        tableView.contentInset = .init(top: 16, left: 0, bottom: 0, right: 0)
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = .black
+        tableView.register(StringCell.self, forCellReuseIdentifier: StringCell.identifier)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.reloadData()
+        
+        playerTimer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { [weak self] timer in
+            if Int(MusicPlayer.shared.curTime) > (self?.model?.duration ?? 0) {
+                self?.playerTimer?.invalidate()
+            }
+            let beforeIndexPath = IndexPath(row: self?.beforeIndex ?? 0, section: 0)
+            let beforeCell = self?.tableView.cellForRow(at: beforeIndexPath) as? StringCell
+            beforeCell?.highlightingLabel(isHightlight: false)
+            
+            let index = MusicPlayer.shared.timeForIndex(time: MusicPlayer.shared.curTime)
+            let indexPath = IndexPath(row: index, section: 0)
+            if (self?.isObservedCurRow ?? false) {
+                self?.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+            }
+            let cell = self?.tableView.cellForRow(at: indexPath) as? StringCell
+            cell?.highlightingLabel(isHightlight: true)
+            
+            self?.beforeIndex = index
+        }
+    }
+    
+    
+}
+
+extension DetailLyricsView: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return MusicPlayer.shared.lyrics.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: StringCell.identifier,
+                                                 for: indexPath) as! StringCell
+        let curLyrics = MusicPlayer.shared.lyrics[indexPath.row]
+        cell.bind(text: curLyrics.1)
+        return cell
+    }
+}
+
+extension DetailLyricsView: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 24
+    }
+}
+
+final class StringCell: UITableViewCell {
+    static let identifier: String = "StringCell"
+    
+    private lazy var label: UILabel = {
+        $0.font = .systemFont(ofSize: 15, weight: .medium)
+        $0.textColor = .lightGray
+        $0.textAlignment = .left
+        
+        addSubview($0)
+        $0.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(16)
+            $0.centerY.equalToSuperview()
+        }
+        return $0
+    }(UILabel())
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        label.textColor = .lightGray
+    }
+    
+    func bind(text: String) {
+        backgroundColor = .black
+        label.text = text
+    }
+    
+    func highlightingLabel(isHightlight: Bool) {
+        label.textColor = isHightlight ? .white : .lightGray
     }
 }

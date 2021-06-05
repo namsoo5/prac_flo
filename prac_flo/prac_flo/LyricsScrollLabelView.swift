@@ -79,29 +79,7 @@ final class LyricsScrollLabelView: UIView {
     }
     
     private func timeForIndex(time: TimeInterval) -> Int {
-        let mid = lyricsInfo.count / 2
-        let midTime = lyricsInfo[mid].0
-        
-        // 중간보다 시간이 큼 중간부터 탐색
-        if time - midTime > 0 {
-            for i in mid..<lyricsInfo.count {
-                let startTime = lyricsInfo[i].0
-                if time < startTime {
-                    return i-1 < 0 ? 0 : i-1
-                }
-            }
-        } else if time - midTime < 0 {
-            for i in 0...mid {
-                let startTime = lyricsInfo[i].0
-                if time < startTime {
-                    return i-1 < 0 ? 0 : i-1
-                }
-            }
-        } else {
-            return mid
-        }
-        
-        return lyricsInfo.count - 1
+        return MusicPlayer.shared.timeForIndex(time: time)
     }
     
     private func highlightingLabel(index: Int) {

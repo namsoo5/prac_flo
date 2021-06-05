@@ -140,6 +140,32 @@ final class MusicPlayer: NSObject {
         let msec: Double = Double(timeGroup[2]) / 1000.0
         return TimeInterval(min + sec + msec)
     }
+    
+    func timeForIndex(time: TimeInterval) -> Int {
+        let mid = lyrics.count / 2
+        let midTime = lyrics[mid].0
+        
+        // 중간보다 시간이 큼 중간부터 탐색
+        if time - midTime > 0 {
+            for i in mid..<lyrics.count {
+                let startTime = lyrics[i].0
+                if time < startTime {
+                    return i-1 < 0 ? 0 : i-1
+                }
+            }
+        } else if time - midTime < 0 {
+            for i in 0...mid {
+                let startTime = lyrics[i].0
+                if time < startTime {
+                    return i-1 < 0 ? 0 : i-1
+                }
+            }
+        } else {
+            return mid
+        }
+        
+        return lyrics.count - 1
+    }
 }
 
 extension MusicPlayer: AVAudioPlayerDelegate {
