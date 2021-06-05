@@ -398,3 +398,4 @@ playerTimer = Timer.scheduledTimer(withTimeInterval: duration, repeats: true) { 
 
 
 
+delegate패턴을 이용해서 재생화면과 전체가사화면의 재생버튼상태를 동기화함
